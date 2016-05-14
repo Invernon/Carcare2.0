@@ -8,7 +8,7 @@
     "cool-ascii-faces": "1.3.3"
 	},
   "description": "Aplicacion para el cuidado de tu vehiculo",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
