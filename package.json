@@ -1,6 +1,12 @@
 {
   "name": "carcare",
   "version": "1.0.0",
+  "dependencies": {
+    "pg": "4.x",
+    "ejs": "2.3.3",
+    "express": "4.13.3",
+    "cool-ascii-faces": "1.3.3"
+	},
   "description": "Aplicacion para el cuidado de tu vehiculo",
   "main": "index.js",
   "scripts": {
@@ -8,4 +14,7 @@
   },
   "author": "Jose Invernon",
   "license": "ISC"
+
+
 }
+
