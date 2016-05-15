@@ -1,0 +1,11 @@
+{
+    "express"  : {
+        "port"     : 8888
+    },
+    "postgres": {
+        "db"       : "d36baplqi973b2",
+        "user"     : "oskolfwwaobjzy",
+        "password" : "9uX-DoK-dv1gR04zBSgPbyOMlu",
+        "host"     : "ec2-54-235-102-190.compute-1.amazonaws.com"
+    }
+}
