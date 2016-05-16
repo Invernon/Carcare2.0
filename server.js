@@ -10,6 +10,8 @@ var pg 				= require('pg');
 
 pg.defaults.ssl = true;
 
+
+
 //Conexion a la base de datos:
 
 //var connectionString = "postgres://oskolfwwaobjzy:9uX-DoK-dv1gR04zBSgPbyOMlu@ec2-54-235-102-190.compute-1.amazonaws.com:5432/d36baplqi973b2"
@@ -48,13 +50,6 @@ var initialize 	= function(){
 
 //prueba
 
-var objeto =  {
-
-	nombre: "",
-	modelo: "",
-	loq: ""
-};
-
 app.get('/', function(req,res){
 
 	var correo;
@@ -81,13 +76,13 @@ app.get('/', function(req,res){
 
 		
 });
-
-app.listen(8888);
-console.log("API esta en 8888");
-
-//pureba end
+//para local
+//app.listen(8888) ; console.log("API esta en 8888");
 
 console.log("Si corre");
+//pureba end
+
+
 /*
 // set the port of our application
 // process.env.PORT lets the port be set by Heroku
@@ -110,6 +105,14 @@ app.listen(port, function() {
     console.log('listen on: ' + port);
 });
 
+
+
 //---------------------------------------------//
 */
+// set the port of our application
+// process.env.PORT lets the port be set by Heroku
+var port = process.env.PORT || 8888;
 
+app.listen(port, function() {
+    console.log('listen on: ' + port);
+});
