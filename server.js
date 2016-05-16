@@ -10,7 +10,7 @@ var pg 				= require('pg');
 
 pg.defaults.ssl = true;
 
-
+var app = express();
 
 //Conexion a la base de datos:
 
@@ -22,22 +22,38 @@ var db;
 
 var client = new pg.Client(connectionString);
 client.connect();
-var query = client.query("SELECT * FROM usuarios Where usuarios_id = 1 ;");
+var query = client.query("SELECT * FROM usuarios WHERE usuarios_id=2 ;");
 
 
 //fired after last row is emitted
 
-query.on('row', function(row) {
-  console.log(row);
+
+var usuario;
+var correo;
+
+app.get('/', function(req,res){
+
+			console.log("esperando res.");
+
+			query.on('row', function(row) {
+			  console.log(row);
+			  usuario = row.usuarios_id;
+			  correo = row.correo;
+
+			  res.send('Este es el usuario: '+ correo + ' numero:' + usuario);
+			});
+
+			query.on('end', function() { 
+			  client.end();
+
+			});
+
 });
 
-query.on('end', function() { 
-  client.end();
-});
 
 
 //-------------------------------------//
-var app = express();
+
 
 var startExpress = function() {
 	app.listen(config.express.port);
@@ -49,15 +65,17 @@ var initialize 	= function(){
 }
 
 //prueba
+/*
 
 app.get('/', function(req,res){
 
-	var correo;
+	var correo = "xxxx";
 		
 		query.on('row', function(row) {
 		  console.log(row);
-		  	correo = row[0].correo;
+		  	correo = row;
 			var contra = row[0].contraseña;
+			res.send('Almenos ya conecta, deberia decir 1 , pero dice: \n Usuario:' + correo);
 		 
 		 });
 			
@@ -66,7 +84,7 @@ app.get('/', function(req,res){
 		res.statusCode = 200;
 		res.setHeader('Content-Type', 'text/plain');
 		//res.send('Estamos Online: \n' + objeto);
-		res.send('Almenos ya conecta, deberia decir 1 , pero dice: \n Usuario:' + correo);
+		//res.send('Almenos ya conecta, deberia decir 1 , pero dice: \n Usuario:' + correo);
 		
 
 		query.on('end', function() { 
@@ -75,7 +93,9 @@ app.get('/', function(req,res){
 
 
 		
-});
+});*/
+
+
 //para local
 //app.listen(8888) ; console.log("API esta en 8888");
 
@@ -109,6 +129,8 @@ app.listen(port, function() {
 
 //---------------------------------------------//
 */
+
+//PUERTO PARA QUE PUEDA CONTECTAR HEROKU. 
 // set the port of our application
 // process.env.PORT lets the port be set by Heroku
 var port = process.env.PORT || 8888;
