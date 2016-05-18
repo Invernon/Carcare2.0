@@ -3,44 +3,62 @@ var config 			= require('./config.json');
 var express 		= require('express');
 var serveStatic 	= require('serve-static');
 var pg 				= require('pg');
-//var bodyParser  	= require('body-parser');
+var pgp				= require('pg-promise')(/*options*/);
+var bodyParser  	= require('body-parser');
 //var multer 			= require('multer');
 //var massive 		= require('massive');
 
-
+//var db;
+var db = pgp("postgres://"+config.postgres.user+":"+config.postgres.password+"@"+config.postgres.host+":"+config.postgres.port+"/"+config.postgres.db);
 pg.defaults.ssl = true;
+
+//BODYPARSER
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
 
 var app = express();
 
 //Conexion a la base de datos:
 
 //var connectionString = "postgres://oskolfwwaobjzy:9uX-DoK-dv1gR04zBSgPbyOMlu@ec2-54-235-102-190.compute-1.amazonaws.com:5432/d36baplqi973b2"
-var connectionString = "postgres://"+config.postgres.user+":"+config.postgres.password+"@"+config.postgres.host+":"+config.postgres.port+"/"+config.postgres.db;
+//var connectionString = "postgres://"+config.postgres.user+":"+config.postgres.password+"@"+config.postgres.host+":"+config.postgres.port+"/"+config.postgres.db;
 
 //var massiveInstance  = massive.connectSync({connectionString : connectionString});
-var db;
+
 
 var client = new pg.Client(connectionString);
 client.connect();
-var query = client.query("SELECT * FROM usuarios WHERE usuarios_id=2 ;");
+var query = client.query("SELECT * FROM usuarios where usuarios_id = 1 ;");
 
 
 //fired after last row is emitted
 
 
 var usuario;
-var correo;
+var correos;
+
+query.on('row', function(row) {
+				console.log("esperando orw.");
+			  	console.log(row);
+			  usuario = row.correo;
+			  console.log(usuario);
+			  //correo = row.correo;
+
+			  //res.send('Este es el usuario: ' + 'numero:' );
+			});
 
 app.get('/', function(req,res){
 
 			console.log("esperando res.");
+			res.send('FUERA' );
 
 			query.on('row', function(row) {
-			  console.log(row);
-			  usuario = row.usuarios_id;
-			  correo = row.correo;
+				console.log("esperando orw.");
+			  	console.log(row);
+			  //usuario = row.usuarios_id;
+			  //correo = row.correo;
 
-			  res.send('Este es el usuario: '+ correo + ' numero:' + usuario);
+			  //res.send('Este es el usuario: ' + 'numero:' );
 			});
 
 			query.on('end', function() { 
