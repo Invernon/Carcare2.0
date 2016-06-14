@@ -5,6 +5,7 @@ var serveStatic 	= require('serve-static');
 var pg 				= require('pg');
 var pgp				= require('pg-promise')(/*options*/);
 var bodyParser  	= require('body-parser');
+var cors        = require('cors');
 
 //INICIALIZACION
 
@@ -17,7 +18,6 @@ pg.defaults.ssl = true;
 var client = new pg.Client(conString);
 
 //var db = pgp("postgres://"+config.postgres.user+":"+config.postgres.password+"@"+config.postgres.host+":"+config.postgres.port+"/"+config.postgres.db);
-
 
 //Express
 var app = express();
@@ -35,7 +35,22 @@ app.use(bodyParser.json());
 
 /*LISTOS*/
 
+app.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Methods","GET, POST, OPTIONS, PUT, DELETE");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next();
+});
+
 app.use('/api', require('./routes/api'));
+app.use('/marca', require('./routes/marca'));
+app.use('/modelo', require('./routes/modelo'));
+app.use('/usuarios', require('./routes/usuarios'));
+app.use('/vehiculos', require('./routes/vehiculos'));
+app.use('/estado', require('./routes/estado'));
+app.use('/simbolos', require('./routes/simbolos'));
+
+
 
 
 //EJEMPLOS DE CONEXION --------------------
